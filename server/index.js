@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/authRoutes");
 const { password } = require("./secret");
+const requireAuth = require("./middlewares/requireAuth");
 
 const app = express();
 
@@ -26,8 +27,9 @@ mongoose.connection.on("error", error => {
   console.error("Error Connected to mongo", error);
 });
 
-app.get("/", (req, res) => {
-  res.send("hello");
+// use the middleware to check if the user in loggedin
+app.get("/", requireAuth, (req, res) => {
+  res.send(`your email ${req.user.email}`);
 });
 
 app.listen(3000, () => {
