@@ -1,0 +1,19 @@
+{
+  "name": "react-native-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "npm run --prefix server start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vhlongon/tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vhlongon/tracker/issues"
+  },
+  "homepage": "https://github.com/vhlongon/tracker#readme"
+}
