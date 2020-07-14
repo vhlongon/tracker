@@ -10,10 +10,6 @@ const pointSchema = new mongoose.Schema({
     heading: Number,
     speed: Number,
   },
-  name: {
-    type: String,
-    default: "",
-  },
 });
 
 const trackSchema = new mongoose.Schema({
