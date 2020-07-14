@@ -1,3 +1,5 @@
+// only requires once otherwise the model is recreated if imported several times and mongoose will throw an error
+require("./models/User");
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
