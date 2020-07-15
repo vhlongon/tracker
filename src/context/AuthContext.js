@@ -1,6 +1,10 @@
+import { AsyncStorage } from 'react-native';
+import { navigate } from '../navigationRef';
 import createDataContext from './createDataContext';
 
 const SIGN_UP = 'SIGN_UP';
+const initialState = { isSignedIn: false };
+
 const authReducer = (state, { type, payload }) => {
   switch (type) {
     case SIGN_UP: {
@@ -18,8 +22,6 @@ const authReducer = (state, { type, payload }) => {
   }
 };
 
-const initialState = { isSignedIn: false };
-
 export const signup = async (dispatch, { email, password }) => {
   try {
     const response = await fetch('http://localhost:3000/signup', {
@@ -30,7 +32,16 @@ export const signup = async (dispatch, { email, password }) => {
       body: JSON.stringify({ email, password }),
     });
     const data = await response.json();
+
+    if (data.token) {
+      await AsyncStorage.setItem('token', data.token);
+    }
+
     dispatch({ type: SIGN_UP, payload: data });
+
+    if (!data.error) {
+      navigate('TrackList');
+    }
   } catch (error) {
     dispatch({ type: SIGN_UP, payload: { error: error.message } });
   }
@@ -44,7 +55,10 @@ export const signout = dispatch => {
   console.log(dispatch);
 };
 
-const { Provider, useState, useDispatch } = createDataContext(authReducer, initialState);
-const useAuth = () => [useState(), useDispatch()];
+const { Provider, useContextState, useContextDispatch } = createDataContext(
+  authReducer,
+  initialState,
+);
+const useAuth = () => [useContextState(), useContextDispatch()];
 
 export { Provider, useAuth };

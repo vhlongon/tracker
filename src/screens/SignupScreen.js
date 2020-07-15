@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Text, Input, Button } from 'react-native-elements';
-import Wrapper from '../components/Wrapper';
-import { useAuth, signup } from '../context/AuthProvider';
+import { useAuth, signup } from '../context/AuthContext';
+import AuthForm from '../components/AuthForm';
+import NavLink from '../components/NavLink';
 
 const styles = StyleSheet.create({
+  title: {
+    color: '#333',
+    textAlign: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -15,45 +19,28 @@ const styles = StyleSheet.create({
     color: 'red',
     marginHorizontal: 15,
   },
+  link: {
+    color: '#2089dc',
+    textAlign: 'center',
+  },
 });
 
 const SignupScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [state, dispatch] = useAuth();
 
-  const handleSubmit = () => {
+  const handleSignup = ({ email, password }) => {
     signup(dispatch, { email, password });
   };
 
   return (
     <View style={styles.container}>
-      <Wrapper>
-        <Text h3>Sign Up for tracker</Text>
-      </Wrapper>
-      <Wrapper>
-        <Input
-          label="Email"
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-      </Wrapper>
-      <Wrapper>
-        <Input
-          label="Password"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-          autoCapitalize="none"
-          autoCorrect={false}
-        />
-      </Wrapper>
-      {state.error && <Text style={styles.errorMessage}>{state.error}</Text>}
-      <Wrapper>
-        <Button title="Sign up" onPress={handleSubmit} />
-      </Wrapper>
+      <AuthForm
+        onSubmit={handleSignup}
+        headerText="Sign up for tracker"
+        buttonText="Sign Up"
+        error={state.error}
+      />
+      <NavLink text="Already have an account? Sign in instead" to="Signin" />
     </View>
   );
 };
