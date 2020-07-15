@@ -8,11 +8,14 @@ import TrackCreateScreen from './src/screens/TrackCreateScreen';
 import AccountScreen from './src/screens/AccountScreen';
 import TrackListScreen from './src/screens/TrackListScreen';
 import TrackDetailScreen from './src/screens/TrackDetailScreen';
+import InitialScreen from './src/screens/InitialScreen';
 import { Provider as AuthProvider } from './src/context/AuthContext';
 import { setNavigator } from './src/navigationRef';
 
 // we use different navigators that fill different functions. refer to navigation-diagram.png
 const switchNavigator = createSwitchNavigator({
+  // the first screen here will always be shown by default
+  InitialScreen,
   loginFlow: createStackNavigator({
     Signup: SignupScreen,
     Signin: SigninScreen,

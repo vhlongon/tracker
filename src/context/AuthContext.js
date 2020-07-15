@@ -85,6 +85,17 @@ export const signin = async (dispatch, { email, password }) => {
   }
 };
 
+export const tryLocalSignin = async dispatch => {
+  const token = await AsyncStorage.getItem('token');
+
+  if (token) {
+    dispatch({ type: SIGN_IN, payload: token });
+    navigate('TrackList');
+  } else {
+    navigate('loginFlow');
+  }
+};
+
 export const signout = dispatch => {
   console.log(dispatch);
 };
