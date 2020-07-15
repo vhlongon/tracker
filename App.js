@@ -1,22 +1,27 @@
-/* eslint-disable react/style-prop-object */
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { createSwitchNavigator, createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import SignupScreen from './src/screens/SignupScreen';
+import SigninScreen from './src/screens/SigninScreen';
+import TrackCreateScreen from './src/screens/TrackCreateScreen';
+import AccountScreen from './src/screens/AccountScreen';
+import TrackListScreen from './src/screens/TrackListScreen';
+import TrackDetailScreen from './src/screens/TrackDetailScreen';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+// we use different navigators that fill different functions. refer to navigation-diagram.png
+const switchNavigator = createSwitchNavigator({
+  loginFlow: createStackNavigator({
+    Signup: SignupScreen,
+    Signin: SigninScreen,
+  }),
+  mainFlow: createBottomTabNavigator({
+    trackListFlow: createStackNavigator({
+      TrackList: TrackListScreen,
+      TrackDetail: TrackDetailScreen,
+    }),
+    TrackCreate: TrackCreateScreen,
+    Account: AccountScreen,
+  }),
 });
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+export default createAppContainer(switchNavigator);
