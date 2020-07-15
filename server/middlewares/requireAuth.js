@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
-const { tokenKey } = require("../secret");
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const { tokenKey } = require('../secret');
 
-const User = mongoose.model("User");
+const User = mongoose.model('User');
 
 module.exports = (req, res, next) => {
   // express automatically lowercases parameters sent
@@ -11,13 +11,13 @@ module.exports = (req, res, next) => {
 
   // if there is a problem with authorization return an opaque error message
   if (!authorization) {
-    return res.status(401).send({ error: "You must be logged in" });
+    return res.status(401).send({ error: 'You must be logged in' });
   }
 
-  const token = authorization.replace("Bearer ", "");
-  jwt.verify(token, tokenKey, async (error, payload) => {
+  const token = authorization.replace('Bearer ', '');
+  return jwt.verify(token, tokenKey, async (error, payload) => {
     if (error) {
-      return res.status(401).send({ error: "You must be logged in" });
+      return res.status(401).send({ error: 'You must be logged in' });
     }
     // otherwise we get the userId. each was created from the `_id` prop automatically created by mongo db when creating a new user
     // and go to the db and fetch information regarding that specific user
@@ -28,6 +28,6 @@ module.exports = (req, res, next) => {
 
     // add the info to the request object and run the next function in the middleware chain
     req.user = user;
-    next();
+    return next();
   });
 };

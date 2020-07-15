@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
   email: { type: String, unique: true, required: true },
@@ -8,22 +8,23 @@ const userSchema = new mongoose.Schema({
 
 // runs before trying to actually save the new user
 // we need to use a normal function because the user itself is `this` in this call context
-userSchema.pre("save", function (next) {
+userSchema.pre('save', function (next) {
   const user = this;
-  if (!user.isModified("password")) {
+  if (!user.isModified('password')) {
     return next();
   }
 
-  bcrypt.genSalt(10, (saltError, salt) => {
+  return bcrypt.genSalt(10, (saltError, salt) => {
     if (saltError) {
       return next(saltError);
     }
-    bcrypt.hash(user.password, salt, (hashError, hash) => {
+
+    return bcrypt.hash(user.password, salt, (hashError, hash) => {
       if (hashError) {
         return next(hashError);
       }
       user.password = hash;
-      next();
+      return next();
     });
   });
 });
@@ -38,14 +39,14 @@ userSchema.methods.comparePassword = function (candidatePassword) {
         return reject(error);
       }
       if (!isMatch) {
-        return reject(false);
+        return reject(new Error('Passwords do not match'));
       }
 
       // if there is no error and the incoming password and the one salved in the db do match
       // we resolve the promise
 
-      resolve(true);
+      return resolve(true);
     });
   });
 };
-mongoose.model("User", userSchema);
+mongoose.model('User', userSchema);
