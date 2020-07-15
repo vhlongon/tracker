@@ -5,7 +5,8 @@ import createDataContext from './createDataContext';
 const SIGN_UP = 'SIGN_UP';
 const SIGN_IN = 'SIGN_IN';
 const ADD_ERROR = 'ADD_ERROR';
-export const RESET = 'RESET';
+const RESET = 'RESET';
+export const CLEAR_ERROR = 'CLEAR_ERROR';
 
 const initialState = { isSignedIn: false };
 
@@ -24,6 +25,9 @@ const authReducer = (state, { type, payload }) => {
     }
     case RESET: {
       return initialState;
+    }
+    case CLEAR_ERROR: {
+      return { ...state, error: null };
     }
     default: {
       return state;

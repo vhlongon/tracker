@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useAuth, signin, RESET } from '../context/AuthContext';
+import { NavigationEvents } from 'react-navigation';
+import { useAuth, signin, CLEAR_ERROR } from '../context/AuthContext';
 import AuthForm from '../components/AuthForm';
 import NavLink from '../components/NavLink';
-import useDidFocus from '../hooks/useDidFocus';
 
 const styles = StyleSheet.create({
   container: {
@@ -13,20 +13,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const SiginScreen = ({ navigation }) => {
+const SiginScreen = () => {
   const [state, dispatch] = useAuth();
-  const reset = () => {
-    dispatch({ type: RESET });
+  const clearError = () => {
+    dispatch({ type: CLEAR_ERROR });
   };
-
-  useDidFocus(navigation, reset);
-
+  // useWillFocus(navigation, clearError);
   const handleSignin = ({ email, password }) => {
     signin(dispatch, { email, password });
   };
 
   return (
     <View style={styles.container}>
+      <NavigationEvents onWillFocus={clearError} />
       <AuthForm
         onSubmit={handleSignin}
         headerText="Sign in for tracker"

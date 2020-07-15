@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useAuth, signup, RESET } from '../context/AuthContext';
+import { NavigationEvents } from 'react-navigation';
+import { useAuth, signup, CLEAR_ERROR } from '../context/AuthContext';
 import AuthForm from '../components/AuthForm';
 import NavLink from '../components/NavLink';
-import useDidFocus from '../hooks/useDidFocus';
 
 const styles = StyleSheet.create({
   container: {
@@ -13,18 +13,21 @@ const styles = StyleSheet.create({
   },
 });
 
-const SignupScreen = ({ navigation }) => {
+const SignupScreen = () => {
   const [state, dispatch] = useAuth();
-  const reset = () => {
-    dispatch({ type: RESET });
+  const clearError = () => {
+    dispatch({ type: CLEAR_ERROR });
   };
-  useDidFocus(navigation, reset);
-
+  // this is another approach with a custom hook and passing down navigation from props:
+  // useWillFocus(navigation, clearError);
+  // but since we already have a component, NavigationEvents we might as well use it instead
   const handleSignup = ({ email, password }) => {
     signup(dispatch, { email, password });
   };
+
   return (
     <View style={styles.container}>
+      <NavigationEvents onWillFocus={clearError} />
       <AuthForm
         onSubmit={handleSignup}
         headerText="Sign up for tracker"
