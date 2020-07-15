@@ -16,7 +16,7 @@ router.post('/signup', async (req, res) => {
     const token = jwt.sign({ userId }, tokenKey);
     return res.send({ token });
   } catch (error) {
-    return res.status(422).send(error.message); // invalid data
+    return res.status(422).send({ error: error.message }); // invalid data
   }
 });
 
