@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 app.use(authRoutes);
 app.use(trackRoutes);
 
-const mongoUri = `mongodb+srv://admin:${password}@cluster0.6n64k.mongodb.net/tracker?retryWrites=true&w=majority`;
+const mongoUri = `mongodb+srv://admin:${password}@cluster0.6n64k.mongodb.net/new-tracker?retryWrites=true&w=majority`;
 mongoose.connect(mongoUri, {
   useNewUrlParser: true,
   useCreateIndex: true,

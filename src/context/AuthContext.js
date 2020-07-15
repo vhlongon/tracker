@@ -3,18 +3,27 @@ import { navigate } from '../navigationRef';
 import createDataContext from './createDataContext';
 
 const SIGN_UP = 'SIGN_UP';
+const SIGN_IN = 'SIGN_IN';
+const ADD_ERROR = 'ADD_ERROR';
+export const RESET = 'RESET';
+
 const initialState = { isSignedIn: false };
 
 const authReducer = (state, { type, payload }) => {
   switch (type) {
-    case SIGN_UP: {
-      const { error, token } = payload;
+    case SIGN_UP:
+    case SIGN_IN: {
       return {
         ...state,
-        isSignedIn: !error,
-        token,
-        error: error ? 'Something went wrong with sign up' : null,
+        isSignedIn: true,
+        token: payload,
       };
+    }
+    case ADD_ERROR: {
+      return { ...state, error: payload, isSignedIn: false };
+    }
+    case RESET: {
+      return initialState;
     }
     default: {
       return state;
@@ -32,23 +41,44 @@ export const signup = async (dispatch, { email, password }) => {
       body: JSON.stringify({ email, password }),
     });
     const data = await response.json();
+    const { token, error } = data;
 
-    if (data.token) {
-      await AsyncStorage.setItem('token', data.token);
+    if (error) {
+      dispatch({ type: ADD_ERROR, payload: 'Something went wrong with signup' });
+      return;
     }
 
-    dispatch({ type: SIGN_UP, payload: data });
-
-    if (!data.error) {
-      navigate('TrackList');
-    }
+    await AsyncStorage.setItem('token', token);
+    dispatch({ type: SIGN_UP, payload: token });
+    navigate('TrackList');
   } catch (error) {
-    dispatch({ type: SIGN_UP, payload: { error: error.message } });
+    dispatch({ type: SIGN_UP, payload: error.message });
   }
 };
 
-export const signin = (dispatch, { email, password }) => {
-  console.log({ dispatch, email, password });
+export const signin = async (dispatch, { email, password }) => {
+  try {
+    const response = await fetch('http://localhost:3000/signin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await response.json();
+    const { token, error } = data;
+
+    if (error) {
+      dispatch({ type: ADD_ERROR, payload: 'Something went wrong with signin' });
+      return;
+    }
+
+    await AsyncStorage.setItem('token', token);
+    dispatch({ type: SIGN_IN, payload: token });
+    navigate('TrackList');
+  } catch (error) {
+    dispatch({ type: SIGN_IN, payload: error.message });
+  }
 };
 
 export const signout = dispatch => {

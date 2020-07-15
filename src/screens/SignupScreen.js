@@ -1,37 +1,28 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { useAuth, signup } from '../context/AuthContext';
+import { useAuth, signup, RESET } from '../context/AuthContext';
 import AuthForm from '../components/AuthForm';
 import NavLink from '../components/NavLink';
+import useDidFocus from '../hooks/useDidFocus';
 
 const styles = StyleSheet.create({
-  title: {
-    color: '#333',
-    textAlign: 'center',
-  },
   container: {
     flex: 1,
     justifyContent: 'center',
     marginBottom: 150,
   },
-  errorMessage: {
-    fontSize: 16,
-    color: 'red',
-    marginHorizontal: 15,
-  },
-  link: {
-    color: '#2089dc',
-    textAlign: 'center',
-  },
 });
 
-const SignupScreen = () => {
+const SignupScreen = ({ navigation }) => {
   const [state, dispatch] = useAuth();
+  const reset = () => {
+    dispatch({ type: RESET });
+  };
+  useDidFocus(navigation, reset);
 
   const handleSignup = ({ email, password }) => {
     signup(dispatch, { email, password });
   };
-
   return (
     <View style={styles.container}>
       <AuthForm
