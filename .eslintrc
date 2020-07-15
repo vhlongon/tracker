@@ -1,0 +1,55 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "parser": "babel-eslint",
+  "plugins": ["prettier", "react-hooks"],
+  "ignorePatterns": ["**/.expo/**", ""],
+  "rules": {
+    "prettier/prettier": "error",
+    "curly": ["error", "all"],
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "parent", "sibling", "index"]
+      }
+    ],
+    "no-useless-constructor": "error",
+    "no-implicit-coercion": [
+      "error",
+      {
+        "boolean": true
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["**/*"],
+      "rules": {
+        "arrow-body-style": ["error", "as-needed"],
+        "import/prefer-default-export": "off",
+        "react/jsx-filename-extension": "off",
+        "react/prop-types": "off",
+        "react/jsx-one-expression-per-line": "off",
+        "no-restricted-syntax": [
+          "error",
+          {
+            "selector": "ForInStatement",
+            "message": "for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array."
+          },
+          {
+            "selector": "LabeledStatement",
+            "message": "Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand."
+          },
+          {
+            "selector": "WithStatement",
+            "message": "`with` is disallowed in strict mode because it makes code impossible to predict and optimize."
+          }
+        ]
+      }
+    }
+  ]
+}

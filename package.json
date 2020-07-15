@@ -1,19 +1,49 @@
 {
-  "name": "react-native-tracker",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "server": "npm run --prefix server start"
+    "start": "expo start",
+    "server": "npm run --prefix server start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject",
+    "lint": "./node_modules/.bin/eslint . --ext .js,.jsx --fix"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vhlongon/tracker.git"
+  "dependencies": {
+    "@react-native-community/masked-view": "^0.1.10",
+    "expo": "~38.0.8",
+    "expo-status-bar": "^1.0.2",
+    "react": "~16.11.0",
+    "react-dom": "~16.11.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-38.0.2.tar.gz",
+    "react-native-gesture-handler": "~1.6.0",
+    "react-native-reanimated": "~1.9.0",
+    "react-native-safe-area-context": "~3.0.7",
+    "react-native-screens": "~2.9.0",
+    "react-native-web": "~0.11.7",
+    "react-navigation": "^4.4.0",
+    "react-navigation-stack": "^2.8.2",
+    "react-navigation-tabs": "^2.9.0"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/vhlongon/tracker/issues"
+  "devDependencies": {
+    "@babel/core": "^7.8.6",
+    "babel-eslint": "^10.1.0",
+    "babel-preset-expo": "~8.1.0",
+    "eslint": "^7.4.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "prettier": "^2.0.5"
   },
-  "homepage": "https://github.com/vhlongon/tracker#readme"
+  "prettier": {
+    "printWidth": 100,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "arrowParens": "avoid"
+  },
+  "private": true
 }
