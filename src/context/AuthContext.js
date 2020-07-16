@@ -6,6 +6,7 @@ const SIGN_UP = 'SIGN_UP';
 const SIGN_IN = 'SIGN_IN';
 const ADD_ERROR = 'ADD_ERROR';
 const RESET = 'RESET';
+const SIGN_OUT = 'SIGN_OUT';
 export const CLEAR_ERROR = 'CLEAR_ERROR';
 
 const initialState = { isSignedIn: false };
@@ -28,6 +29,9 @@ const authReducer = (state, { type, payload }) => {
     }
     case CLEAR_ERROR: {
       return { ...state, error: null };
+    }
+    case SIGN_OUT: {
+      return { ...state, token: null, error: null, isSignedIn: false };
     }
     default: {
       return state;
@@ -96,8 +100,10 @@ export const tryLocalSignin = async dispatch => {
   }
 };
 
-export const signout = dispatch => {
-  console.log(dispatch);
+export const signout = async dispatch => {
+  await AsyncStorage.removeItem('token');
+  dispatch({ type: SIGN_OUT });
+  navigate('loginFlow');
 };
 
 const { Provider, useContextState, useContextDispatch } = createDataContext(
