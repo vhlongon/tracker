@@ -10,6 +10,7 @@ import TrackListScreen from './src/screens/TrackListScreen';
 import TrackDetailScreen from './src/screens/TrackDetailScreen';
 import InitialScreen from './src/screens/InitialScreen';
 import { Provider as AuthProvider } from './src/context/AuthContext';
+import { Provider as LocationProvider } from './src/context/LocationContext';
 import { setNavigator } from './src/navigationRef';
 
 // we use different navigators that fill different functions. refer to navigation-diagram.png
@@ -33,7 +34,9 @@ const switchNavigator = createSwitchNavigator({
 const App = createAppContainer(switchNavigator);
 
 export default () => (
-  <AuthProvider>
-    <App ref={setNavigator} />
-  </AuthProvider>
+  <LocationProvider>
+    <AuthProvider>
+      <App ref={setNavigator} />
+    </AuthProvider>
+  </LocationProvider>
 );
