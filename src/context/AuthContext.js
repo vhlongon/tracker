@@ -41,7 +41,7 @@ const authReducer = (state, { type, payload }) => {
 
 export const signup = async (dispatch, { email, password }) => {
   try {
-    const response = await fetch('http://localhost:3000/signup', {
+    const response = await fetch('http://192.168.1.102:3000/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ export const signup = async (dispatch, { email, password }) => {
 
 export const signin = async (dispatch, { email, password }) => {
   try {
-    const response = await fetch('http://localhost:3000/signin', {
+    const response = await fetch('http://192.168.1.102:3000/signin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -110,6 +110,6 @@ const { Provider, useContextState, useContextDispatch } = createDataContext(
   authReducer,
   initialState,
 );
-const useAuth = () => [useContextState(), useContextDispatch()];
+const useAuthContext = () => [useContextState(), useContextDispatch()];
 
-export { Provider, useAuth };
+export { Provider, useAuthContext };

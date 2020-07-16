@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { NavigationEvents } from 'react-navigation';
-import { useAuth, signin, CLEAR_ERROR } from '../context/AuthContext';
+import { useAuthContext, signin, CLEAR_ERROR } from '../context/AuthContext';
 import AuthForm from '../components/AuthForm';
 import NavLink from '../components/NavLink';
 
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 });
 
 const SiginScreen = () => {
-  const [state, dispatch] = useAuth();
+  const [state, dispatch] = useAuthContext();
   const clearError = () => {
     dispatch({ type: CLEAR_ERROR });
   };

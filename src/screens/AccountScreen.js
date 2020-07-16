@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { Button, Text } from 'react-native-elements';
-import { useAuth, signout } from '../context/AuthContext';
+import { useAuthContext, signout } from '../context/AuthContext';
 import Wrapper from '../components/Wrapper';
 
 const styles = StyleSheet.create({
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
 // basically we can render stuff within the safe area in the device, respecting bottom and top bars
 // in the devices itself
 const AccountScreen = () => {
-  const [, dispatch] = useAuth();
+  const [, dispatch] = useAuthContext();
 
   const handleSignout = () => {
     signout(dispatch);
