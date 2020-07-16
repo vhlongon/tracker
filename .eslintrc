@@ -4,10 +4,10 @@
     "node": true,
     "es6": true
   },
-  "extends": ["airbnb", "plugin:prettier/recommended"],
+  "extends": ["airbnb", "plugin:prettier/recommended", "plugin:react-hooks/recommended"],
   "parser": "babel-eslint",
   "plugins": ["prettier", "react-hooks"],
-  "ignorePatterns": ["**/.expo/**", ""],
+  "ignorePatterns": ["**/.expo/**"],
   "rules": {
     "prettier/prettier": "error",
     "curly": ["error", "all"],
@@ -23,7 +23,9 @@
       {
         "boolean": true
       }
-    ]
+    ],
+    "react-hooks/rules-of-hooks": "error", // Checks rules of Hooks
+    "react-hooks/exhaustive-deps": "warn" // Checks effect dependencies
   },
   "overrides": [
     {

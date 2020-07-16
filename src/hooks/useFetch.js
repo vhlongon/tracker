@@ -30,7 +30,7 @@ export default function useFetch({ manual = true, ...rest }) {
     if (!manual) {
       fetchData(url, options);
     }
-  }, [url]);
+  }, [url, manual, options]);
 
   return { data, loading, error, refetch: fetchData };
 }

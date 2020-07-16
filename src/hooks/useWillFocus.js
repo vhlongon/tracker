@@ -12,7 +12,7 @@ const useWillFocus = (navigation, cb) => {
     return () => {
       listener.remove();
     };
-  }, [navigation]);
+  }, [navigation, cb]);
 };
 
 export default useWillFocus;

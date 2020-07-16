@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import MapView, { Polyline, Circle } from 'react-native-maps';
+import MapView, { Circle } from 'react-native-maps';
 
 const styles = StyleSheet.create({
   map: {

@@ -14,14 +14,15 @@ const locationReducer = (state, { type, payload }) => {
 };
 
 export const startRecording = dispatch => {
-  //
+  console.log(dispatch);
 };
 
 export const stopRecording = dispatch => {
-  //
+  console.log(dispatch);
 };
 
 export const addCurrentLocation = (dispatch, location) => {
+  console.log('addCurrentLocation');
   dispatch({ type: ADD_CURRENT_LOCATION, payload: location });
 };
 

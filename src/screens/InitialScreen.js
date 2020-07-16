@@ -9,7 +9,7 @@ const InitialScreen = () => {
 
   useEffect(() => {
     tryLocalSignin(dispatch);
-  }, []);
+  }, [dispatch]);
 
   return null;
 };
