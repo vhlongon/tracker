@@ -6,8 +6,11 @@ import { SafeAreaView, withNavigationFocus } from 'react-navigation';
 import Map from '../components/Map';
 import { useLocationContext, addCurrentLocation } from '../context/LocationContext';
 import useLocation from '../hooks/useLocation';
+import TrackForm from '../components/TrackForm';
 
-const styles = StyleSheet.create({ text: { color: '#333' } });
+const styles = StyleSheet.create({
+  text: { color: '#333', textAlign: 'center', marginVertical: 10 },
+});
 
 const TrackCreateScreen = ({ isFocused }) => {
   const [state, dispatch] = useLocationContext();
@@ -32,6 +35,7 @@ const TrackCreateScreen = ({ isFocused }) => {
         <ActivityIndicator size="large" style={{ marginTop: 200 }} />
       )}
       {error && <Text>Please enable location services</Text>}
+      <TrackForm />
     </SafeAreaView>
   );
 };

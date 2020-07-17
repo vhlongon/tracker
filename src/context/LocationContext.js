@@ -1,11 +1,29 @@
 import createDataContext from './createDataContext';
 
 const ADD_CURRENT_LOCATION = 'ADD_CURRENT_LOCATION';
-const initialState = { recording: false, lolcations: [], currentLocation: null };
+const START_RECORDING = 'START_RECORDING';
+const STOP_RECORDING = 'STOP_RECORDING';
+const CHANGE_NAME = 'CHANGE_NAME';
+
+const initialState = { recording: false, locations: [], currentLocation: null, name: '' };
 const locationReducer = (state, { type, payload }) => {
   switch (type) {
     case ADD_CURRENT_LOCATION: {
-      return { ...state, currentLocation: payload };
+      const { recording, locations } = state;
+      return {
+        ...state,
+        currentLocation: payload,
+        locations: recording ? [...locations, payload] : locations,
+      };
+    }
+    case START_RECORDING: {
+      return { ...state, recording: true };
+    }
+    case STOP_RECORDING: {
+      return { ...state, recording: false };
+    }
+    case CHANGE_NAME: {
+      return { ...state, name: payload };
     }
     default: {
       return state;
@@ -13,16 +31,19 @@ const locationReducer = (state, { type, payload }) => {
   }
 };
 
+export const changeName = (dispatch, name) => {
+  dispatch({ type: CHANGE_NAME, payload: name });
+};
+
 export const startRecording = dispatch => {
-  console.log(dispatch);
+  dispatch({ type: START_RECORDING });
 };
 
 export const stopRecording = dispatch => {
-  console.log(dispatch);
+  dispatch({ type: STOP_RECORDING });
 };
 
 export const addCurrentLocation = (dispatch, location) => {
-  console.log('addCurrentLocation');
   dispatch({ type: ADD_CURRENT_LOCATION, payload: location });
 };
 

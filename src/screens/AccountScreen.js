@@ -14,6 +14,7 @@ const styles = StyleSheet.create({
   title: {
     color: '#333',
     textAlign: 'center',
+    marginVertical: 10,
   },
 });
 
