@@ -28,7 +28,7 @@ const useLocation = (shouldTrack, callback = () => {}) => {
             distanceInterval: 10, // or every 10 meters
           },
           // the expo-location watch function takes the callback that is called with the current location
-          // as the second argument here, so we accept the callback an arg for the hook to send it back to the component
+          // as the second argument here, so we accept the callback as arg for the hook to send it back to the component
           callback,
         );
 
