@@ -14,15 +14,15 @@ const styles = StyleSheet.create({
 
 const TrackCreateScreen = ({ isFocused }) => {
   const [state, dispatch] = useLocationContext();
-  const coords = state.currentLocation ? state.currentLocation.coords : null;
+  const { currentLocation, recording } = state;
+  const coords = currentLocation ? currentLocation.coords : null;
   const setLocation = useCallback(
     location => {
       addCurrentLocation(dispatch, location);
     },
     [dispatch],
   );
-
-  const { error } = useLocation(isFocused, setLocation);
+  const { error } = useLocation(isFocused || recording, setLocation);
 
   return (
     <SafeAreaView forceInset={{ top: 'always' }}>
