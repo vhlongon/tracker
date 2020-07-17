@@ -7,18 +7,18 @@ import {
   stopRecording,
   changeName,
 } from '../context/LocationContext';
+import useSaveTrack from '../hooks/useSaveTrack';
 
-const styles = StyleSheet.create({ container: { padding: 15 } });
+const styles = StyleSheet.create({ container: { padding: 15 }, button: { marginTop: 15 } });
 
 const TrackForm = () => {
   const [state, dispatch] = useLocationContext();
-
-  const { name, recording } = state;
-  const handleChange = text => {
+  const [saveTrack] = useSaveTrack();
+  const { name, recording, locations } = state;
+  const handleNameChange = text => {
     changeName(dispatch, text);
   };
-
-  const handlePress = () => {
+  const handleRecord = () => {
     if (recording) {
       stopRecording(dispatch);
     } else {
@@ -26,10 +26,15 @@ const TrackForm = () => {
     }
   };
 
+  const showRecordingButton = !recording && locations.length;
+
   return (
     <View style={styles.container}>
-      <Input placeholder="Enter name" value={name} onChangeText={handleChange} />
-      <Button title={recording ? 'Stop recording' : 'Start recording'} onPress={handlePress} />
+      <Input placeholder="Enter name" value={name} onChangeText={handleNameChange} />
+      <Button title={recording ? 'Stop recording' : 'Start recording'} onPress={handleRecord} />
+      {showRecordingButton ? (
+        <Button style={styles.button} title="Save recording" onPress={saveTrack} />
+      ) : null}
     </View>
   );
 };

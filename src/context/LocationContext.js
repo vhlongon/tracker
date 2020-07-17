@@ -4,6 +4,7 @@ const ADD_CURRENT_LOCATION = 'ADD_CURRENT_LOCATION';
 const START_RECORDING = 'START_RECORDING';
 const STOP_RECORDING = 'STOP_RECORDING';
 const CHANGE_NAME = 'CHANGE_NAME';
+const RESET = 'RESET';
 
 const initialState = { recording: false, locations: [], currentLocation: null, name: '' };
 const locationReducer = (state, { type, payload }) => {
@@ -25,6 +26,10 @@ const locationReducer = (state, { type, payload }) => {
     case CHANGE_NAME: {
       return { ...state, name: payload };
     }
+    case RESET: {
+      const { currentLocation } = state;
+      return { ...initialState, currentLocation };
+    }
     default: {
       return state;
     }
@@ -45,6 +50,10 @@ export const stopRecording = dispatch => {
 
 export const addCurrentLocation = (dispatch, location) => {
   dispatch({ type: ADD_CURRENT_LOCATION, payload: location });
+};
+
+export const reset = dispatch => {
+  dispatch({ type: RESET });
 };
 
 const { Provider, useContextState, useContextDispatch } = createDataContext(

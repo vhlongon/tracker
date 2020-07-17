@@ -1,5 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import { navigate } from '../navigationRef';
+import { BASE_URL } from '../api';
 import createDataContext from './createDataContext';
 
 const SIGN_UP = 'SIGN_UP';
@@ -41,7 +42,7 @@ const authReducer = (state, { type, payload }) => {
 
 export const signup = async (dispatch, { email, password }) => {
   try {
-    const response = await fetch('http://192.168.1.102:3000/signup', {
+    const response = await fetch(`${BASE_URL}/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -66,7 +67,7 @@ export const signup = async (dispatch, { email, password }) => {
 
 export const signin = async (dispatch, { email, password }) => {
   try {
-    const response = await fetch('http://192.168.1.102:3000/signin', {
+    const response = await fetch(`${BASE_URL}/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
 
 const TrackCreateScreen = ({ isFocused }) => {
   const [state, dispatch] = useLocationContext();
-  const { currentLocation, recording } = state;
+  const { currentLocation, recording, locations } = state;
   const coords = currentLocation ? currentLocation.coords : null;
   const setLocation = useCallback(
     location => {
@@ -30,7 +30,7 @@ const TrackCreateScreen = ({ isFocused }) => {
         Create Track
       </Text>
       {coords ? (
-        <Map coords={coords} />
+        <Map coords={coords} locations={locations} />
       ) : (
         <ActivityIndicator size="large" style={{ marginTop: 200 }} />
       )}
