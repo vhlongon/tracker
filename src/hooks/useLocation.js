@@ -1,11 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { requestPermissionsAsync, watchPositionAsync, Accuracy } from 'expo-location';
 
 const useLocation = (shouldTrack, callback = () => {}) => {
   const [error, setError] = useState();
+  const subscriber = useRef(null);
+
+  const removeSubscriber = () => {
+    if (subscriber.current) {
+      subscriber.current.remove();
+    }
+  };
 
   useEffect(() => {
-    let subscriber;
     const watchLocation = async () => {
       try {
         const { granted } = await requestPermissionsAsync();
@@ -31,13 +37,6 @@ const useLocation = (shouldTrack, callback = () => {}) => {
       }
     };
 
-    const removeSubscriber = () => {
-      if (subscriber) {
-        subscriber.remove();
-        subscriber = null;
-      }
-    };
-
     if (shouldTrack) {
       watchLocation();
     } else {
@@ -47,7 +46,7 @@ const useLocation = (shouldTrack, callback = () => {}) => {
     return () => {
       removeSubscriber();
     };
-  }, [shouldTrack, callback]);
+  }, [shouldTrack, subscriber, callback]);
 
   return { error };
 };
