@@ -2,6 +2,8 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-navigation';
 import { Button, Text } from 'react-native-elements';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { FontAwesome } from '@expo/vector-icons';
 import { useAuthContext, signout } from '../context/AuthContext';
 import Wrapper from '../components/Wrapper';
 
@@ -38,6 +40,11 @@ const AccountScreen = () => {
       </Wrapper>
     </SafeAreaView>
   );
+};
+
+AccountScreen.navigationOptions = {
+  title: 'Account',
+  tabBarIcon: <FontAwesome name="gear" size={20} color="#333" />,
 };
 
 export default AccountScreen;

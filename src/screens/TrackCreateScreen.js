@@ -2,6 +2,8 @@ import React, { useCallback } from 'react';
 import { StyleSheet, ActivityIndicator } from 'react-native';
 import { Text } from 'react-native-elements';
 import { SafeAreaView, withNavigationFocus } from 'react-navigation';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { FontAwesome } from '@expo/vector-icons';
 // import '../mock/mockLocation';
 import Map from '../components/Map';
 import { useLocationContext, addCurrentLocation } from '../context/LocationContext';
@@ -38,6 +40,11 @@ const TrackCreateScreen = ({ isFocused }) => {
       <TrackForm />
     </SafeAreaView>
   );
+};
+
+TrackCreateScreen.navigationOptions = {
+  title: 'Add Track',
+  tabBarIcon: <FontAwesome name="plus" size={20} color="#333" />,
 };
 
 export default withNavigationFocus(TrackCreateScreen);
