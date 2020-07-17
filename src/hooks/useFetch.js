@@ -1,36 +1,77 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef, useReducer, useCallback } from 'react';
 
-export default function useFetch({ manual = true, ...rest }) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const prevUrl = useRef();
+const IDLE = 'IDLE';
+const FETCHING = 'FETCHING';
+const FETCHED = 'FETCHED';
+const FETCH_ERROR = 'FETCH_ERROR';
 
-  const fetchData = async (url, options) => {
-    try {
-      const response = await fetch(url, options);
-      const d = await response.json();
-      setData(d);
-    } catch (e) {
-      console.error(e);
-      setError(e);
-    }
+const initialState = {
+  status: IDLE,
+  error: null,
+  data: [],
+};
 
-    setLoading(false);
-  };
+export const status = { FETCHING, FETCHED, FETCH_ERROR, IDLE };
 
-  const { url, options } = rest;
+const fetchReducer = (state, action) => {
+  switch (action.type) {
+    case FETCHING:
+      return { ...initialState, status: FETCHING };
+    case FETCHED:
+      return { ...initialState, status: FETCHED, data: action.payload };
+    case FETCH_ERROR:
+      return { ...initialState, status: FETCH_ERROR, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const useFetch = (url, manual = false) => {
+  const cache = useRef({});
+
+  const [state, dispatch] = useReducer(fetchReducer, initialState);
+
+  const fetchData = useCallback(
+    async (currentUrl = url, cancelRequest) => {
+      dispatch({ type: 'FETCHING' });
+      if (cache.current[currentUrl]) {
+        const data = cache.current[currentUrl];
+        dispatch({ type: FETCHED, payload: data });
+      } else {
+        try {
+          const response = await fetch(currentUrl);
+          const data = await response.json();
+          cache.current[currentUrl] = data;
+          if (cancelRequest) {
+            return;
+          }
+          dispatch({ type: 'FETCHED', payload: data });
+        } catch (error) {
+          if (cancelRequest) {
+            return;
+          }
+          dispatch({ type: FETCH_ERROR, payload: error.message });
+        }
+      }
+    },
+    [url],
+  );
+
   useEffect(() => {
-    // Only refetch if url changes
-    if (prevUrl.current === url) {
+    let cancelRequest = false;
+    if (!url) {
       return;
     }
-    prevUrl.current = url;
 
     if (!manual) {
-      fetchData(url, options);
+      fetchData(url, cancelRequest);
     }
-  }, [url, manual, options]);
 
-  return { data, loading, error, refetch: fetchData };
-}
+    // eslint-disable-next-line consistent-return
+    return () => {
+      cancelRequest = true;
+    };
+  }, [url, fetchData, manual]);
+
+  return { ...state, fetch: fetchData };
+};
